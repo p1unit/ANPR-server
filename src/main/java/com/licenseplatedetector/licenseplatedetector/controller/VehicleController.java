@@ -2,6 +2,7 @@ package com.licenseplatedetector.licenseplatedetector.controller;
 
 
 import com.licenseplatedetector.licenseplatedetector.exception.ResourceNotFoundException;
+import com.licenseplatedetector.licenseplatedetector.model.BasicInfoModel;
 import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
 import com.licenseplatedetector.licenseplatedetector.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -19,19 +23,17 @@ public class VehicleController {
     @Autowired
     private VehicleRepository vehicleRepository;
 
-    @GetMapping("/vehicle")
+    @GetMapping("/allVehicles")
     public List<Vehicle> getallVehicle(){
-        List str=vehicleRepository.getallTypes(new Date());
-        System.out.println(str);
         return vehicleRepository.findAll();
     }
 
-    @PostMapping("/vehicle")
+    @PostMapping("/addVehicle")
     public Vehicle addVehicle(@Valid @RequestBody Vehicle vehicle) {
         return vehicleRepository.save(vehicle);
     }
 
-    @PutMapping("/vehicle/{licenseNumber}")
+    @PutMapping("/changeVehicleStatus/{licenseNumber}")
     public ResponseEntity<Vehicle> updateVehicle(
             @PathVariable(value = "licenseNumber") String licenseNumber,
             @Valid @RequestBody Vehicle vehicleDetails) throws ResourceNotFoundException {
@@ -44,6 +46,25 @@ public class VehicleController {
         vehicle.setOutTime(vehicleDetails.getOutTime());
         final Vehicle updatedVehicle = vehicleRepository.save(vehicle);
         return ResponseEntity.ok(updatedVehicle);
+    }
+
+    @GetMapping("/basicinfo")
+    public BasicInfoModel getBasicInfo(){
+
+        BasicInfoModel basicInfoModel=new BasicInfoModel();
+
+
+        Date yesterday = new Date();
+        Date lastweek =  new Date(System.currentTimeMillis()-7L*(long) 8.64E7);
+
+        basicInfoModel.setCurrentlyInside(vehicleRepository.currentlyInside());
+
+        basicInfoModel.setTodaysTotalCount(vehicleRepository.todayVisited(yesterday));
+
+        basicInfoModel.setMostFrequent(vehicleRepository.mostVisitedfromDate(lastweek));
+
+        basicInfoModel.setTypeCountList(vehicleRepository.getallTypes(lastweek));
+        return basicInfoModel;
     }
 
 //    @GetMapping("/intialData")

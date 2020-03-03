@@ -54,7 +54,7 @@ public class VehicleController {
         BasicInfoModel basicInfoModel=new BasicInfoModel();
 
 
-        Date yesterday = new Date();
+        Date yesterday = new Date(System.currentTimeMillis()- (long) 8.64E7);
         Date lastweek =  new Date(System.currentTimeMillis()-7L*(long) 8.64E7);
 
         basicInfoModel.setCurrentlyInside(vehicleRepository.currentlyInside());

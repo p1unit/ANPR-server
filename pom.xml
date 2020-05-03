@@ -8,8 +8,8 @@
 		<version>2.2.5.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.licenseplatedetector</groupId>
-	<artifactId>licenseplatedetector</artifactId>
+	<groupId>com.anpr</groupId>
+	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>license plate detector server</name>
 	<description>Demo project for Spring Boot</description>
@@ -43,6 +43,12 @@
 					<artifactId>junit-vintage-engine</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.10</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 

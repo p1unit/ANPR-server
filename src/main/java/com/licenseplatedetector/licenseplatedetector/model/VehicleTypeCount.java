@@ -1,11 +1,5 @@
 package com.licenseplatedetector.licenseplatedetector.model;
 
-import org.springframework.beans.factory.annotation.Value;
-
-import javax.persistence.Column;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-
 
 public class VehicleTypeCount {
 

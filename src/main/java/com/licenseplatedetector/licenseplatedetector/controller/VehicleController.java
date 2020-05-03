@@ -5,14 +5,12 @@ import com.licenseplatedetector.licenseplatedetector.exception.ResourceNotFoundE
 import com.licenseplatedetector.licenseplatedetector.model.BasicInfoModel;
 import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
 import com.licenseplatedetector.licenseplatedetector.repository.VehicleRepository;
+import com.licenseplatedetector.licenseplatedetector.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -23,14 +21,17 @@ public class VehicleController {
     @Autowired
     private VehicleRepository vehicleRepository;
 
+    @Autowired
+    private VehicleService vehicleService;
+
     @GetMapping("/allVehicles")
     public List<Vehicle> getallVehicle(){
         return vehicleRepository.findAll();
     }
 
     @PostMapping("/addVehicle")
-    public Vehicle addVehicle(@Valid @RequestBody Vehicle vehicle) {
-        return vehicleRepository.save(vehicle);
+    public ResponseEntity addVehicle(@Valid @RequestBody Vehicle vehicle) {
+        return vehicleService.addVehicle(vehicle);
     }
 
     @PutMapping("/changeVehicleStatus/{licenseNumber}")
@@ -38,37 +39,13 @@ public class VehicleController {
             @PathVariable(value = "licenseNumber") String licenseNumber,
             @Valid @RequestBody Vehicle vehicleDetails) throws ResourceNotFoundException {
 
-        Vehicle vehicle = vehicleRepository.findByLicenseNumberAndInside(licenseNumber);
-        if(vehicle==null){
-            throw new ResourceNotFoundException("Vehicle not found on :: " + licenseNumber);
-        }
-        vehicle.setInside(false);
-        vehicle.setOutTime(vehicleDetails.getOutTime());
-        final Vehicle updatedVehicle = vehicleRepository.save(vehicle);
-        return ResponseEntity.ok(updatedVehicle);
+        return vehicleService.updateVehicle(vehicleDetails,licenseNumber);
     }
 
     @GetMapping("/basicinfo")
-    public BasicInfoModel getBasicInfo(){
+    public ResponseEntity getBasicInfo(){
 
-        BasicInfoModel basicInfoModel=new BasicInfoModel();
-
-
-        Date yesterday = new Date(System.currentTimeMillis()- (long) 8.64E7);
-        Date lastweek =  new Date(System.currentTimeMillis()-7L*(long) 8.64E7);
-
-        basicInfoModel.setCurrentlyInside(vehicleRepository.currentlyInside());
-
-        basicInfoModel.setTodaysTotalCount(vehicleRepository.todayVisited(yesterday));
-
-        basicInfoModel.setMostFrequent(vehicleRepository.mostVisitedfromDate(lastweek));
-
-        basicInfoModel.setTypeCountList(vehicleRepository.getallTypes(lastweek));
-        return basicInfoModel;
+        return vehicleService.getBasicInfo();
     }
 
-//    @GetMapping("/intialData")
-//    public  getIntialData(){
-//
-//    }
 }

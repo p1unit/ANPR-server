@@ -1,4 +1,4 @@
-package com.licenseplatedetector.licenseplatedetector.exception;
+package com.anpr.server.exception;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.springframework.http.HttpStatus;

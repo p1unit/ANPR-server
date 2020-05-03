@@ -1,4 +1,4 @@
-package com.licenseplatedetector.licenseplatedetector.model;
+package com.anpr.server.model;
 
 
 public class VehicleTypeCount {

@@ -1,16 +1,15 @@
-package com.licenseplatedetector.licenseplatedetector.service;
+package com.anpr.server.service;
 
-import com.licenseplatedetector.licenseplatedetector.exception.ResourceNotFoundException;
-import com.licenseplatedetector.licenseplatedetector.model.BasicInfoModel;
-import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
-import com.licenseplatedetector.licenseplatedetector.repository.VehicleRepository;
-import com.licenseplatedetector.licenseplatedetector.validator.VehicleDetailsValidator;
+import com.anpr.server.exception.ResourceNotFoundException;
+import com.anpr.server.model.BasicInfoModel;
+import com.anpr.server.model.Vehicle;
+import com.anpr.server.repository.VehicleRepository;
+import com.anpr.server.validator.VehicleDetailsValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -49,7 +48,8 @@ public class VehicleServiceImpl implements VehicleService {
         basicInfoModel.setCurrentlyInside(vehicleRepository.countVehicleByInsideTrue());
         basicInfoModel.setTodaysTotalCount(vehicleRepository.countVehiclesByInTimeAfter(yesterday));
         basicInfoModel.setMostFrequent(vehicleRepository.mostVisitedfromDate(lastweek));
-        basicInfoModel.setTypeCountList(vehicleRepository.getallTypes(lastweek));
+        basicInfoModel.setTypeCountList(vehicleRepository.getAllTypes(lastweek));
+        basicInfoModel.setInsideTypeCountList(vehicleRepository.getAllTypesCurrentlyInside());
 
         return ResponseEntity.ok().body(basicInfoModel);
     }

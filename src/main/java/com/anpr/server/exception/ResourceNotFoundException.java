@@ -1,4 +1,4 @@
-package com.licenseplatedetector.licenseplatedetector.exception;
+package com.anpr.server.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

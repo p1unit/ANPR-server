@@ -1,10 +1,10 @@
-package com.licenseplatedetector.licenseplatedetector.validator;
+package com.anpr.server.validator;
 
-import com.licenseplatedetector.licenseplatedetector.exception.CustomMessage;
-import com.licenseplatedetector.licenseplatedetector.exception.ResourceNotFoundException;
-import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
-import com.licenseplatedetector.licenseplatedetector.repository.VehicleRepository;
-import com.licenseplatedetector.licenseplatedetector.resorces.Messages;
+import com.anpr.server.exception.CustomMessage;
+import com.anpr.server.exception.ResourceNotFoundException;
+import com.anpr.server.model.Vehicle;
+import com.anpr.server.repository.VehicleRepository;
+import com.anpr.server.resorces.Messages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

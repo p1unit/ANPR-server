@@ -1,4 +1,4 @@
-package com.licenseplatedetector.licenseplatedetector.resorces;
+package com.anpr.server.resorces;
 
 public class Messages {
 

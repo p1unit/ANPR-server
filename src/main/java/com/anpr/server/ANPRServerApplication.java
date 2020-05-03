@@ -1,13 +1,13 @@
-package com.licenseplatedetector.licenseplatedetector;
+package com.anpr.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LicensePlateDetectorServerApplication {
+public class ANPRServerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LicensePlateDetectorServerApplication.class, args);
+		SpringApplication.run(ANPRServerApplication.class, args);
 	}
 
 }

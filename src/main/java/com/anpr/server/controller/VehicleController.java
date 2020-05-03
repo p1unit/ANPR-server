@@ -1,17 +1,15 @@
-package com.licenseplatedetector.licenseplatedetector.controller;
+package com.anpr.server.controller;
 
 
-import com.licenseplatedetector.licenseplatedetector.exception.ResourceNotFoundException;
-import com.licenseplatedetector.licenseplatedetector.model.BasicInfoModel;
-import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
-import com.licenseplatedetector.licenseplatedetector.repository.VehicleRepository;
-import com.licenseplatedetector.licenseplatedetector.service.VehicleService;
+import com.anpr.server.exception.ResourceNotFoundException;
+import com.anpr.server.model.Vehicle;
+import com.anpr.server.repository.VehicleRepository;
+import com.anpr.server.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.Date;
 import java.util.List;
 
 @RestController

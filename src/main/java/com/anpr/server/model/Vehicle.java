@@ -1,4 +1,4 @@
-package com.licenseplatedetector.licenseplatedetector.model;
+package com.anpr.server.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

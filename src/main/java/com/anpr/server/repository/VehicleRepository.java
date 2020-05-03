@@ -1,11 +1,10 @@
-package com.licenseplatedetector.licenseplatedetector.repository;
+package com.anpr.server.repository;
 
-import com.licenseplatedetector.licenseplatedetector.model.Vehicle;
-import com.licenseplatedetector.licenseplatedetector.model.VehicleTypeCount;
+import com.anpr.server.model.Vehicle;
+import com.anpr.server.model.VehicleTypeCount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -14,12 +13,12 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     Vehicle findVehicleByLicenseNumberAndInsideTrue(String licenseNumber);
 
-    @Query("SELECT new com.licenseplatedetector.licenseplatedetector.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType ) FROM Vehicle v WHERE v.inTime>?1 GROUP BY v.vehicleType")
+    @Query("SELECT new com.anpr.server.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType ) FROM Vehicle v WHERE v.inTime>?1 GROUP BY v.vehicleType")
     List<VehicleTypeCount> getAllTypes(Date date);
 
-    @Query("SELECT new com.licenseplatedetector.licenseplatedetector.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType )" +
-            " FROM Vehicle v WHERE v.inTime>?1 AND v.inside = true GROUP BY v.vehicleType")
-    List<VehicleTypeCount> getAllTypesCurrentlyInside(Date date);
+    @Query("SELECT new com.anpr.server.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType )" +
+            " FROM Vehicle v WHERE v.inside = true GROUP BY v.vehicleType")
+    List<VehicleTypeCount> getAllTypesCurrentlyInside();
 
     int countVehicleByInsideTrue();
 

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
@@ -27,4 +28,6 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     @Query(value = "SELECT all_vehicle.license_number FROM all_vehicle WHERE all_vehicle.in_time>=now() - INTERVAL 3 DAY GROUP BY all_vehicle.license_number\n" +
             "ORDER BY COUNT(all_vehicle.license_number) ASC LIMIT 10;", nativeQuery = true)
     List<String> mostVisitedfromDate(Date date);
+
+    List<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str,Date start,Date end,Date start2,Date end2);
 }

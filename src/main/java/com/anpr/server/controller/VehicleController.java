@@ -4,12 +4,17 @@ package com.anpr.server.controller;
 import com.anpr.server.exception.ResourceNotFoundException;
 import com.anpr.server.model.Vehicle;
 import com.anpr.server.repository.VehicleRepository;
+import com.anpr.server.resorces.EndPoints;
 import com.anpr.server.service.VehicleService;
+import com.sun.istack.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -21,11 +26,6 @@ public class VehicleController {
 
     @Autowired
     private VehicleService vehicleService;
-
-    @GetMapping("/allVehicles")
-    public List<Vehicle> getallVehicle(){
-        return vehicleRepository.findAll();
-    }
 
     @PostMapping("/addVehicle")
     public ResponseEntity addVehicle(@Valid @RequestBody Vehicle vehicle) {
@@ -42,8 +42,16 @@ public class VehicleController {
 
     @GetMapping("/basicinfo")
     public ResponseEntity getBasicInfo(){
-
         return vehicleService.getBasicInfo();
     }
+
+    @GetMapping(EndPoints.VEHICLE_ACTIVITY)
+    public ResponseEntity getVehicleActivity(@PathVariable(value = "licenseNumber") String licenseNumber,
+                                             @RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
+                                             @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate){
+
+        return vehicleService.getVehicleDetails(licenseNumber,startDate,endDate);
+    }
+
 
 }

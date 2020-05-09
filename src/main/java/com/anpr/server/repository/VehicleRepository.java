@@ -2,6 +2,8 @@ package com.anpr.server.repository;
 
 import com.anpr.server.model.Vehicle;
 import com.anpr.server.model.VehicleTypeCount;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -29,5 +31,8 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
             "ORDER BY COUNT(all_vehicle.license_number) ASC LIMIT 10;", nativeQuery = true)
     List<String> mostVisitedfromDate(Date date);
 
-    List<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str,Date start,Date end,Date start2,Date end2);
+    Page<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, Date start, Date end, Date start2, Date end2, Pageable page);
+
+
+
 }

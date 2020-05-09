@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -51,20 +53,22 @@ public class VehicleController {
 
     @GetMapping(EndPoints.VEHICLE_ACTIVITY)
     public ResponseEntity<?> getVehicleActivity(@PathVariable(value = "licenseNumber") String licenseNumber,
-                                             @RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                             @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate,
+                                             @RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                             @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                                                 @RequestParam(value = "page", required = false,defaultValue = "0") Integer page){
 
         return vehicleService.getVehicleDetails(licenseNumber,startDate,endDate,page);
     }
 
     @GetMapping(EndPoints.ALL_VEHICLE)
-    public ResponseEntity<?> getAllVehiclesDetails(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date startDate,
-                                                  @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date endDate ,
-                                                  @RequestParam(value = "isInside",required = false) Boolean isInside ,
-                                                  @RequestParam(value = "vehicleType",required = false) String vehicleType){
+    public ResponseEntity<?> getAllVehiclesDetails(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
+                                                  @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate ,
+                                                  @RequestParam(value = "inside",required = false) Boolean inside ,
+                                                  @RequestParam(value = "vehicleType",required = false) String vehicleType,
+                                                   @RequestParam(value = "page", required = false,defaultValue = "0") Integer page){
 
-        return vehicleService.getAllVehiclesDetails(startDate,endDate,isInside, VehicleType.valueOf(vehicleType));
+        return vehicleService.getAllVehiclesDetails(startDate,endDate,inside,
+                vehicleType==null ? null : VehicleType.valueOf(vehicleType),page);
 
     }
 

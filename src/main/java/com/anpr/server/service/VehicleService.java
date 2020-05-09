@@ -5,6 +5,8 @@ import com.anpr.server.model.Vehicle;
 import com.anpr.server.model.VehicleType;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public interface VehicleService {
@@ -12,6 +14,6 @@ public interface VehicleService {
     ResponseEntity<?> addVehicle(Vehicle vehicle);
     ResponseEntity<?> updateVehicle(Vehicle  vehicle,String licenseNumber) throws ResourceNotFoundException;
     ResponseEntity<?> getBasicInfo();
-    ResponseEntity<?> getVehicleDetails(String licenseNumber, Date startDate,Date endDate,int page);
-    ResponseEntity<?> getAllVehiclesDetails(Date startDate, Date endDate, Boolean isInside, VehicleType valueOf);
+    ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate, int page);
+    ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType valueOf, int page);
 }

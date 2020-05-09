@@ -1,12 +1,15 @@
 package com.anpr.server.repository;
 
 import com.anpr.server.model.Vehicle;
+import com.anpr.server.model.VehicleType;
 import com.anpr.server.model.VehicleTypeCount;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +34,10 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
             "ORDER BY COUNT(all_vehicle.license_number) ASC LIMIT 10;", nativeQuery = true)
     List<String> mostVisitedfromDate(Date date);
 
-    Page<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, Date start, Date end, Date start2, Date end2, Pageable page);
+    Page<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2, Pageable page);
 
-
+    @Query("SELECT v FROM Vehicle v WHERE ( (v.outTime  >= ?1 AND v.outTime  <= ?2) OR ( v.inTime >= ?1 AND v.inTime <= ?2) ) " +
+            "AND (?3 is NULL OR v.vehicleType = ?3) AND (?4 is NULL OR v.inside = ?4 ) " )
+    Page<Vehicle> getAllDetails(LocalDateTime statDate, LocalDateTime endDate, String type, Boolean inside, Pageable page);
 
 }

@@ -4,5 +4,6 @@ public class Messages {
 
     public static final String VEHICLE_NOT_FOUND = "Vehicle not found on :: ";
     public static final String START_DATE_EMPTY = "start Date should not be Empty";
+    public static final String NO_DATA_FOUND = "No Data Found";
     public static String MISSING_VALUES = "Some Values are Missing";
 }

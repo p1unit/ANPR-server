@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -21,9 +23,9 @@ public class Vehicle {
 
     private String licenseNumber;
 
-    private Date inTime;
+    private LocalDateTime inTime;
 
-    private Date outTime;
+    private LocalDateTime outTime;
 
     private String inImageUrl;
 

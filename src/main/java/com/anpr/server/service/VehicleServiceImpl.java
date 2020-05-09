@@ -20,10 +20,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
-import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -66,13 +65,13 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public ResponseEntity<?> getVehicleDetails(String licenseNumber,Date startDate,Date endDate,int page) {
+    public ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate, int page) {
 
         if(startDate==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.START_DATE_EMPTY,HttpStatus.BAD_REQUEST));
         }
 
-        endDate = endDate == null ? new Date() : endDate;
+        endDate = endDate == null ? LocalDateTime.now(Resources.indianZone) : endDate;
         PageRequest pageable = PageRequest.of(page, Resources.PAGE_SIZE);
 
         Page<Vehicle> vehicleHistory = vehicleRepository.
@@ -89,27 +88,24 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public ResponseEntity<?> getAllVehiclesDetails(Date startDate, Date endDate, Boolean isInside, VehicleType vehicleType,int page) {
+    public ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType vehicleType, int page) {
 
-        endDate = endDate == null ? new Date() : endDate;
+        endDate = endDate == null ? LocalDateTime.now(Resources.indianZone) : endDate;
         PageRequest pageable = PageRequest.of(page, Resources.PAGE_SIZE);
+
         if(startDate==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.START_DATE_EMPTY,HttpStatus.BAD_REQUEST));
         }
+        System.out.println(vehicleType.name());
+        Page<Vehicle> vehicleHistory = vehicleRepository.getAllDetails(startDate,endDate,vehicleType.name(),isInside,pageable);
 
-        Page<Vehicle> vehicleHistory;
-
-        if(isInside==null && vehicleType==null){
-
-        }else if(isInside == null){
-
-        }else if(vehicleType == null){
-
-        }else {
-
+        if(vehicleHistory.isEmpty()){
+            return ResponseEntity.status(HttpStatus.OK).body(new CustomMessage(Messages.NO_DATA_FOUND,HttpStatus.OK));
         }
 
-    }
+        return ResponseEntity.ok().body(new VehiclePage(vehicleHistory.getTotalPages(),
+                page,vehicleHistory.getContent()));
 
+    }
 
 }

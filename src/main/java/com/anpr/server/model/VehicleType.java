@@ -3,14 +3,14 @@ package com.anpr.server.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum VehicleType {
-    @JsonProperty("Bus")
+    @JsonProperty("BUS")
     BUS,
-    @JsonProperty("Car")
+    @JsonProperty("CAR")
     CAR,
-    @JsonProperty("Two Wheeler")
+    @JsonProperty("TWO_WHEELER")
     TWO_WHEELER,
-    @JsonProperty("Truck")
+    @JsonProperty("TRUCK")
     TRUCK,
-    @JsonProperty("Other")
+    @JsonProperty("OTHER")
     OTHER;
 }

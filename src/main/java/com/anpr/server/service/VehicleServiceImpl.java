@@ -52,14 +52,20 @@ public class VehicleServiceImpl implements VehicleService {
 
         BasicInfoModel basicInfoModel=new BasicInfoModel();
 
-        Date yesterday = new Date(System.currentTimeMillis()- (long) 8.64E7);
-        Date lastweek =  new Date(System.currentTimeMillis()-7L*(long) 8.64E7);
+        LocalDateTime yesterday = LocalDateTime.now(Resources.indianZone).minusDays(1L);
+        LocalDateTime lastweek =  LocalDateTime.now(Resources.indianZone).minusDays(7L);
+        LocalDateTime lastMonth =  LocalDateTime.now(Resources.indianZone).minusDays(30);
+
+        logger.info(yesterday+" -> "+yesterday.toString());
+        logger.info(yesterday+" -> "+lastweek.toString());
 
         basicInfoModel.setCurrentlyInside(vehicleRepository.countVehicleByInsideTrue());
-        basicInfoModel.setTodaysTotalCount(vehicleRepository.countVehiclesByInTimeAfter(yesterday));
-        basicInfoModel.setMostFrequent(vehicleRepository.mostVisitedfromDate(lastweek));
         basicInfoModel.setTypeCountList(vehicleRepository.getAllTypes(lastweek));
         basicInfoModel.setInsideTypeCountList(vehicleRepository.getAllTypesCurrentlyInside());
+        basicInfoModel.setLast1DayVisitor(vehicleRepository.countVehiclesByInTimeAfter(yesterday));
+        basicInfoModel.setLast7DayVisitor(vehicleRepository.countVehiclesByInTimeAfter(lastweek));
+        basicInfoModel.setLast30DayVisitor(vehicleRepository.countVehiclesByInTimeAfter(lastMonth));
+
 
         return ResponseEntity.ok().body(basicInfoModel);
     }
@@ -96,7 +102,7 @@ public class VehicleServiceImpl implements VehicleService {
         if(startDate==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.START_DATE_EMPTY,HttpStatus.BAD_REQUEST));
         }
-        System.out.println(vehicleType.name());
+
         Page<Vehicle> vehicleHistory = vehicleRepository.getAllDetails(startDate,endDate,vehicleType.name(),isInside,pageable);
 
         if(vehicleHistory.isEmpty()){

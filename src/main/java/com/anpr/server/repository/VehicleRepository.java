@@ -20,7 +20,7 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
     Vehicle findVehicleByLicenseNumberAndInsideTrue(String licenseNumber);
 
     @Query("SELECT new com.anpr.server.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType ) FROM Vehicle v WHERE v.inTime>?1 GROUP BY v.vehicleType")
-    List<VehicleTypeCount> getAllTypes(Date date);
+    List<VehicleTypeCount> getAllTypes(LocalDateTime date);
 
     @Query("SELECT new com.anpr.server.model.VehicleTypeCount(COUNT(v.vehicleType) ,v.vehicleType )" +
             " FROM Vehicle v WHERE v.inside = true GROUP BY v.vehicleType")
@@ -28,11 +28,11 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
 
     int countVehicleByInsideTrue();
 
-    int countVehiclesByInTimeAfter(Date date);
+    int countVehiclesByInTimeAfter(LocalDateTime date);
 
     @Query(value = "SELECT all_vehicle.license_number FROM all_vehicle WHERE all_vehicle.in_time>=now() - INTERVAL 3 DAY GROUP BY all_vehicle.license_number\n" +
             "ORDER BY COUNT(all_vehicle.license_number) ASC LIMIT 10;", nativeQuery = true)
-    List<String> mostVisitedfromDate(Date date);
+    List<String> mostVisitedfromDate(LocalDateTime date);
 
     Page<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2, Pageable page);
 

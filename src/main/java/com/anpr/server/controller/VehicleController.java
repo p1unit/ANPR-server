@@ -47,7 +47,7 @@ public class VehicleController {
     }
 
     @GetMapping(EndPoints.BASIC_INFORMATION)
-    public ResponseEntity<?> getBasicInfo(){
+    public @ResponseBody ResponseEntity<?> getBasicInfo(){
         return vehicleService.getBasicInfo();
     }
 

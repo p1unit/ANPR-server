@@ -12,8 +12,9 @@ import java.util.List;
 public class BasicInfoModel {
 
     private int currentlyInside;
-    private int todaysTotalCount;
-    private List<String> mostFrequent;
+    private int last1DayVisitor;
+    private int last7DayVisitor;
+    private int last30DayVisitor;
     private List<VehicleTypeCount> typeCountList;
     private List<VehicleTypeCount> insideTypeCountList;
 
@@ -21,9 +22,11 @@ public class BasicInfoModel {
     public String toString() {
         return "BasicInfoModel{" +
                 "currentlyInside=" + currentlyInside +
-                ", todaysTotalCount=" + todaysTotalCount +
-                ", mostFrequent=" + mostFrequent +
+                ", last1DayVisitor=" + last1DayVisitor +
+                ", last7DayVisitor=" + last7DayVisitor +
+                ", last30DayVisitor=" + last30DayVisitor +
                 ", typeCountList=" + typeCountList +
+                ", insideTypeCountList=" + insideTypeCountList +
                 '}';
     }
 }

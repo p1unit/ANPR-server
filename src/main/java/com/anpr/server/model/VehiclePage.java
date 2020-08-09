@@ -11,7 +11,5 @@ import java.util.List;
 @NoArgsConstructor
 public class VehiclePage {
 
-    int totalPages;
-    int currentPage;
     List<Vehicle> pageData;
 }

@@ -14,6 +14,6 @@ public interface VehicleService {
     ResponseEntity<?> addVehicle(Vehicle vehicle);
     ResponseEntity<?> updateVehicle(Vehicle  vehicle,String licenseNumber) throws ResourceNotFoundException;
     ResponseEntity<?> getBasicInfo();
-    ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate, int page);
-    ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType valueOf, int page);
+    ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate);
+    ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType valueOf);
 }

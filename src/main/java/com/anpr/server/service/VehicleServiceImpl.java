@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -71,46 +72,43 @@ public class VehicleServiceImpl implements VehicleService {
     }
 
     @Override
-    public ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate, int page) {
+    public ResponseEntity<?> getVehicleDetails(String licenseNumber, LocalDateTime startDate, LocalDateTime endDate) {
 
         if(startDate==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.START_DATE_EMPTY,HttpStatus.BAD_REQUEST));
         }
 
         endDate = endDate == null ? LocalDateTime.now(Resources.indianZone) : endDate;
-        PageRequest pageable = PageRequest.of(page, Resources.PAGE_SIZE);
 
-        Page<Vehicle> vehicleHistory = vehicleRepository.
+        List<Vehicle> vehicleHistory = vehicleRepository.
                 getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(licenseNumber, startDate,
-                        endDate,startDate,endDate,pageable);
+                        endDate,startDate,endDate);
 
         if(vehicleHistory.isEmpty()){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.VEHICLE_NOT_FOUND+licenseNumber,HttpStatus.BAD_REQUEST));
         }
 
-        return ResponseEntity.ok().body(new VehiclePage(vehicleHistory.getTotalPages(),
-                page,vehicleHistory.getContent()));
+        return ResponseEntity.ok().body(new VehiclePage(vehicleHistory));
         
     }
 
     @Override
-    public ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType vehicleType, int page) {
+    public ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType vehicleType) {
 
         endDate = endDate == null ? LocalDateTime.now(Resources.indianZone) : endDate;
-        PageRequest pageable = PageRequest.of(page, Resources.PAGE_SIZE);
 
         if(startDate==null){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomMessage(Messages.START_DATE_EMPTY,HttpStatus.BAD_REQUEST));
         }
 
-        Page<Vehicle> vehicleHistory = vehicleRepository.getAllDetails(startDate,endDate,vehicleType.name(),isInside,pageable);
+        List<Vehicle> vehicleHistory ;
+        vehicleHistory = vehicleRepository.getAllDetails(startDate, endDate, vehicleType==null ? null :vehicleType.name(), isInside);
 
         if(vehicleHistory.isEmpty()){
             return ResponseEntity.status(HttpStatus.OK).body(new CustomMessage(Messages.NO_DATA_FOUND,HttpStatus.OK));
         }
 
-        return ResponseEntity.ok().body(new VehiclePage(vehicleHistory.getTotalPages(),
-                page,vehicleHistory.getContent()));
+        return ResponseEntity.ok().body(new VehiclePage(vehicleHistory));
 
     }
 

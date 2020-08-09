@@ -34,10 +34,15 @@ public interface VehicleRepository extends JpaRepository<Vehicle, Long> {
             "ORDER BY COUNT(all_vehicle.license_number) ASC LIMIT 10;", nativeQuery = true)
     List<String> mostVisitedfromDate(LocalDateTime date);
 
-    Page<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2, Pageable page);
+    List<Vehicle> getByLicenseNumberAndInTimeIsBetweenOrOutTimeBetweenOrderByInTime(String str, LocalDateTime start, LocalDateTime end, LocalDateTime start2, LocalDateTime end2);
 
     @Query("SELECT v FROM Vehicle v WHERE ( (v.outTime  >= ?1 AND v.outTime  <= ?2) OR ( v.inTime >= ?1 AND v.inTime <= ?2) ) " +
             "AND (?3 is NULL OR v.vehicleType = ?3) AND (?4 is NULL OR v.inside = ?4 ) " )
-    Page<Vehicle> getAllDetails(LocalDateTime statDate, LocalDateTime endDate, String type, Boolean inside, Pageable page);
+    List<Vehicle> getAllDetails(LocalDateTime statDate, LocalDateTime endDate, String type, Boolean inside);
+
+
+//    @Query("SELECT v FROM Vehicle v WHERE ( (v.outTime  >= ?1 AND v.outTime  <= ?2) OR ( v.inTime >= ?1 AND v.inTime <= ?2) ) " +
+//            "AND (?3 is NULL OR v.vehicleType = ?3) " )
+//    List<Vehicle> getAllDetails(LocalDateTime statDate, LocalDateTime endDate, String type);
 
 }

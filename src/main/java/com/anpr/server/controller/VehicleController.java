@@ -7,31 +7,22 @@ import com.anpr.server.model.VehicleType;
 import com.anpr.server.repository.VehicleRepository;
 import com.anpr.server.resorces.EndPoints;
 import com.anpr.server.service.VehicleService;
-import com.sun.istack.Nullable;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
 
 @RestController
 @RequestMapping("api/v1.1")
+@Data
+@AllArgsConstructor
 public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
-
     private final VehicleService vehicleService;
-
-    public VehicleController(VehicleRepository vehicleRepository, VehicleService vehicleService) {
-        this.vehicleRepository = vehicleRepository;
-        this.vehicleService = vehicleService;
-    }
 
     @PostMapping(EndPoints.ADD_VEHICLE)
     public ResponseEntity<?> addVehicle(@Valid @RequestBody Vehicle vehicle) {
@@ -57,20 +48,30 @@ public class VehicleController {
                                              @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate,
                                                 @RequestParam(value = "page", required = false,defaultValue = "0") Integer page){
 
-        return vehicleService.getVehicleDetails(licenseNumber,startDate,endDate,page);
+        return vehicleService.getVehicleDetails(licenseNumber,startDate,endDate);
     }
 
     @GetMapping(EndPoints.ALL_VEHICLE)
     public ResponseEntity<?> getAllVehiclesDetails(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime startDate,
                                                   @RequestParam(value = "endDate",required = false ) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime endDate ,
                                                   @RequestParam(value = "inside",required = false) Boolean inside ,
-                                                  @RequestParam(value = "vehicleType",required = false) String vehicleType,
-                                                   @RequestParam(value = "page", required = false,defaultValue = "0") Integer page){
+                                                  @RequestParam(value = "vehicleType",required = false) String vehicleType){
 
         return vehicleService.getAllVehiclesDetails(startDate,endDate,inside,
-                vehicleType==null ? null : VehicleType.valueOf(vehicleType),page);
+                vehicleType==null ? null : VehicleType.valueOf(vehicleType));
 
     }
+
+//    @PostMapping("/uploadFile")
+//    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+//
+//        uploadService.uploadImage(file);
+//
+//        redirectAttributes.addFlashAttribute("message",
+//                "You successfully uploaded " + file.getOriginalFilename() + "!");
+//
+//        return "redirect:/";
+//    }
 
 
 }

@@ -1,15 +1,20 @@
 package com.anpr.server.controller;
 
 
+import com.anpr.server.exception.CustomMessage;
 import com.anpr.server.exception.ResourceNotFoundException;
+import com.anpr.server.model.NumberPlateUrl;
 import com.anpr.server.model.Vehicle;
 import com.anpr.server.model.VehicleType;
 import com.anpr.server.repository.VehicleRepository;
 import com.anpr.server.resorces.EndPoints;
+import com.anpr.server.resorces.Messages;
+import com.anpr.server.service.PendingVehicleService;
 import com.anpr.server.service.VehicleService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
@@ -23,18 +28,11 @@ public class VehicleController {
 
     private final VehicleRepository vehicleRepository;
     private final VehicleService vehicleService;
+    private  final PendingVehicleService pendingVehicleService;
 
     @PostMapping(EndPoints.ADD_VEHICLE)
     public ResponseEntity<?> addVehicle(@Valid @RequestBody Vehicle vehicle) {
         return vehicleService.addVehicle(vehicle);
-    }
-
-    @PutMapping(EndPoints.UPDATE_STATUS)
-    public ResponseEntity<?> updateVehicle(
-            @PathVariable(value = "licenseNumber") String licenseNumber,
-            @Valid @RequestBody Vehicle vehicleDetails) throws ResourceNotFoundException {
-
-        return vehicleService.updateVehicle(vehicleDetails,licenseNumber);
     }
 
     @GetMapping(EndPoints.BASIC_INFORMATION)
@@ -62,16 +60,16 @@ public class VehicleController {
 
     }
 
-//    @PostMapping("/uploadFile")
-//    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//
-//        uploadService.uploadImage(file);
-//
-//        redirectAttributes.addFlashAttribute("message",
-//                "You successfully uploaded " + file.getOriginalFilename() + "!");
-//
-//        return "redirect:/";
-//    }
+    @PostMapping("/addOrUpdate")
+    public @ResponseBody ResponseEntity<?> vehicleEntered(@Valid @RequestBody NumberPlateUrl plateUrl){
+        System.out.println(plateUrl.getUrl());
+//        return ResponseEntity.ok().body("");
+       return pendingVehicleService.addOrUpdateVehicle(plateUrl);
+    }
 
+    @GetMapping("/getAllPending")
+    public @ResponseBody ResponseEntity<?> getAllPending(){
+        return pendingVehicleService.getAllPendingVehicles();
+    }
 
 }

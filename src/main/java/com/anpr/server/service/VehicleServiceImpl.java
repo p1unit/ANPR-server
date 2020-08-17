@@ -2,10 +2,7 @@ package com.anpr.server.service;
 
 import com.anpr.server.exception.CustomMessage;
 import com.anpr.server.exception.ResourceNotFoundException;
-import com.anpr.server.model.BasicInfoModel;
-import com.anpr.server.model.Vehicle;
-import com.anpr.server.model.VehiclePage;
-import com.anpr.server.model.VehicleType;
+import com.anpr.server.model.*;
 import com.anpr.server.repository.VehicleRepository;
 import com.anpr.server.resorces.Messages;
 import com.anpr.server.resorces.Resources;
@@ -19,6 +16,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import retrofit2.Call;
+import retrofit2.Response;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -41,11 +40,6 @@ public class VehicleServiceImpl implements VehicleService {
 
         logger.info("Request To add "+vehicle.toString());
         return vehicleDetailsValidator.validateAndSave(vehicle);
-    }
-
-    @Override
-    public ResponseEntity updateVehicle(Vehicle vehicle, String licenseNumber) throws ResourceNotFoundException {
-        return vehicleDetailsValidator.validateAndUpdate(vehicle,licenseNumber);
     }
 
     @Override
@@ -111,5 +105,7 @@ public class VehicleServiceImpl implements VehicleService {
         return ResponseEntity.ok().body(new VehiclePage(vehicleHistory));
 
     }
+
+
 
 }

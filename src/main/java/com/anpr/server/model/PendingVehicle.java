@@ -11,13 +11,14 @@ import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
-@Table(name = "all_vehicle")
+@Table(name = "all_pending_vehicle")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Vehicle {
+public class PendingVehicle {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String licenseNumber;

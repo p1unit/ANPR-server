@@ -28,8 +28,7 @@ public class VehicleDetailsValidator {
 
     public ResponseEntity<?> validateAndSave(Vehicle vehicle){
 
-        PendingVehicle pendingVehicle = pendingVehicleRepository.findVehicleByLicenseNumber(vehicle.getLicenseNumber());
-
+        PendingVehicle pendingVehicle = pendingVehicleRepository.findPendingVehicleById(vehicle.getId());
         pendingVehicleRepository.delete(pendingVehicle);
 
         return ResponseEntity.ok().body(vehicleRepository.save(vehicle));

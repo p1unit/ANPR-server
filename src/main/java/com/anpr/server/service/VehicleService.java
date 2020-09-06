@@ -4,6 +4,7 @@ import com.anpr.server.model.Vehicle;
 import com.anpr.server.model.VehicleType;
 import org.springframework.http.ResponseEntity;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 public interface VehicleService {

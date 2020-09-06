@@ -1,5 +1,6 @@
 package com.anpr.server.service;
 
+import com.anpr.server.exception.CustomMessage;
 import com.anpr.server.model.*;
 import com.anpr.server.repository.PendingVehicleRepository;
 import com.anpr.server.repository.VehicleRepository;
@@ -41,8 +42,6 @@ public class PendingVehicleIServiceImpl implements PendingVehicleService {
 
         logger.info(allTexts.toString());
 
-
-
         StringBuilder licensePlate = new StringBuilder();
 
 
@@ -64,6 +63,7 @@ public class PendingVehicleIServiceImpl implements PendingVehicleService {
             pVehicle.setInImageUrl(Resources.BlobContainer+""+parts[parts.length-1]);
             pVehicle.setVehicleType(VehicleType.OTHER);
             pVehicle.setInTime(LocalDateTime.now());
+            logger.info("Added");
             return ResponseEntity.ok().body(pendingvehicleRepository.save(pVehicle));
         }else {
             vehicle.setOutImageUrl(Resources.BlobContainer+""+parts[parts.length-1]);
@@ -92,5 +92,17 @@ public class PendingVehicleIServiceImpl implements PendingVehicleService {
         }catch (Exception ex) { ex.printStackTrace(); }
 
         return allTexts;
+    }
+
+    @Override
+    public ResponseEntity<?> deletePendingVehicle(PendingVehicle pendingVehicle){
+        try {
+            pendingvehicleRepository.delete(pendingVehicle);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("failed");
+        }
+        return ResponseEntity.ok().body(new CustomMessage("success",HttpStatus.OK));
+
     }
 }

@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface PendingVehicleRepository extends JpaRepository<PendingVehicle, Long> {
 
-    PendingVehicle findVehicleByLicenseNumberAndInsideTrue(String licenseNumber);
-    PendingVehicle findVehicleByLicenseNumber(String licenseNumber);
+    PendingVehicle findPendingVehicleById(long id);
 
 }

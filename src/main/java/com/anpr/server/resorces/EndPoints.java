@@ -6,4 +6,7 @@ public class EndPoints {
     public static final String BASIC_INFORMATION = "/basicInfo";
     public static final String UPDATE_STATUS = "/changeVehicleStatus/{licenseNumber}";
     public static final String ADD_VEHICLE = "/addVehicle";
+    public static final String ADD_OR_UPDATE_NEW_VECHICLE = "/addOrUpdate";
+    public static final String DELETE_VEHICLE = "/deleteVehicle";
+    public static final String ALL_PENDING = "/getAllPending";
 }

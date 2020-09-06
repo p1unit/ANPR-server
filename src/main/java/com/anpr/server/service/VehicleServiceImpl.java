@@ -1,7 +1,6 @@
 package com.anpr.server.service;
 
 import com.anpr.server.exception.CustomMessage;
-import com.anpr.server.exception.ResourceNotFoundException;
 import com.anpr.server.model.*;
 import com.anpr.server.repository.VehicleRepository;
 import com.anpr.server.resorces.Messages;
@@ -11,17 +10,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import retrofit2.Call;
-import retrofit2.Response;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -89,6 +82,8 @@ public class VehicleServiceImpl implements VehicleService {
     @Override
     public ResponseEntity<?> getAllVehiclesDetails(LocalDateTime startDate, LocalDateTime endDate, Boolean isInside, VehicleType vehicleType) {
 
+        logger.debug(startDate.toString());
+        System.out.println(startDate.toString());
         endDate = endDate == null ? LocalDateTime.now(Resources.indianZone) : endDate;
 
         if(startDate==null){

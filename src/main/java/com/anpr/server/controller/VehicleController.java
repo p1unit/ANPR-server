@@ -4,6 +4,7 @@ package com.anpr.server.controller;
 import com.anpr.server.exception.CustomMessage;
 import com.anpr.server.exception.ResourceNotFoundException;
 import com.anpr.server.model.NumberPlateUrl;
+import com.anpr.server.model.PendingVehicle;
 import com.anpr.server.model.Vehicle;
 import com.anpr.server.model.VehicleType;
 import com.anpr.server.repository.VehicleRepository;
@@ -19,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @RestController
 @RequestMapping("api/v1.1")
@@ -55,21 +57,28 @@ public class VehicleController {
                                                   @RequestParam(value = "inside",required = false) Boolean inside ,
                                                   @RequestParam(value = "vehicleType",required = false) String vehicleType){
 
+        System.out.println(startDate+" "+endDate);
+
         return vehicleService.getAllVehiclesDetails(startDate,endDate,inside,
                 vehicleType==null ? null : VehicleType.valueOf(vehicleType));
 
     }
 
-    @PostMapping("/addOrUpdate")
+    @PostMapping(EndPoints.ADD_OR_UPDATE_NEW_VECHICLE)
     public @ResponseBody ResponseEntity<?> vehicleEntered(@Valid @RequestBody NumberPlateUrl plateUrl){
         System.out.println(plateUrl.getUrl());
 //        return ResponseEntity.ok().body("");
        return pendingVehicleService.addOrUpdateVehicle(plateUrl);
     }
 
-    @GetMapping("/getAllPending")
+    @GetMapping(EndPoints.ALL_PENDING)
     public @ResponseBody ResponseEntity<?> getAllPending(){
         return pendingVehicleService.getAllPendingVehicles();
+    }
+
+    @PostMapping(EndPoints.DELETE_VEHICLE)
+    public @ResponseBody ResponseEntity<?> deletePending(@Valid @RequestBody PendingVehicle pendingVehicle){
+        return pendingVehicleService.deletePendingVehicle(pendingVehicle);
     }
 
 }

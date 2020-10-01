@@ -1,2 +1,3 @@
 # ANPR-server
-Backend Service for the ANPR Application.
+
+Server Application for the ANPR System
